@@ -37,8 +37,8 @@ public class JHipsterMetricsEndpoint {
         results.put("http.server.requests", this.httpRequestsMetrics());
         // Cache stats
         results.put("cache", this.cacheMetrics());
-        // Service stats
-        results.put("services", this.serviceMetrics());
+        // Endpoints Requests stats
+        results.put("endpointsRequests", this.endpointsRequestsMetrics());
         // Database stats
         results.put("databases", this.databaseMetrics());
         // Garbage collector
@@ -128,7 +128,7 @@ public class JHipsterMetricsEndpoint {
         return resultsDatabase;
     }
 
-    private Map<String, Map> serviceMetrics() {
+    private Map<String, Map> endpointsRequestsMetrics() {
         Collection<String> crudOperation = Arrays.asList("GET", "POST", "PUT", "DELETE");
 
         Set<String> uris = new HashSet<>();
@@ -152,6 +152,7 @@ public class JHipsterMetricsEndpoint {
 
                     resultsPerUriPerCrudOperation.put("count", count);
                     resultsPerUriPerCrudOperation.put("max", max);
+                    resultsPerUriPerCrudOperation.put("size", httpTimersStream.size());
                     resultsPerUriPerCrudOperation.put("mean", totalTime / count);
 
                     resultsPerUri.put(operation, resultsPerUriPerCrudOperation);
